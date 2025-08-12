@@ -60,18 +60,19 @@ const { developmentChains } = require("../../helper-hardhat.config")
         // onlyOwner,windowClosed,target reached
         it("not owner, window closed, getFund failed", async function () {
             // make sure the target is reached
-            await fundMe.fund({ value: ethers.parseEther("0.4") })
+            await fundMe.fund({ value: ethers.parseEther("1") })
 
             // make sure the window closed
             await helpers.time.increase(200)
             await helpers.mine()
 
-            await expect(fundMeSecondAccount.getFund()).to.be.revertedWith("this function can only be called by owner")
+            await expect(fundMeSecondAccount.getFund())
+                .to.be.revertedWith("this function can only be called by owner")
         })
 
         it("window open, target reached, getFund failed", async function () {
             // make sure the target is reached
-            await fundMe.fund({ value: ethers.parseEther("0.4") })
+            await fundMe.fund({ value: ethers.parseEther("1") })
 
             await expect(fundMe.getFund()).to.be.revertedWith("window is not closed")
         })
